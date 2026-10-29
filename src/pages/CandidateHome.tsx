@@ -4,8 +4,9 @@ import { MatchHero } from '../components/Illustrations';
 import { Avatar } from '../components/Layout';
 import { MatchChecks } from '../components/MatchChecks';
 import { ScoreBadge } from '../components/ScoreBadge';
-import { matchCandidate } from '../lib/matching';
+import { matchCandidate, SUITABLE_SCORE, type Match } from '../lib/matching';
 import { expressInterest, formatWhen, getInterest, setActiveCandidate, useApp } from '../lib/store';
+import type { Opportunity } from '../types';
 
 export function CandidateHome() {
   const app = useApp();
@@ -39,6 +40,8 @@ export function CandidateHome() {
   const ranked = app.opportunities
     .map((opportunity) => ({ opportunity, match: matchCandidate(active, opportunity) }))
     .sort((a, b) => b.match.score - a.match.score);
+  const goodFits = ranked.filter(({ match }) => match.suitable);
+  const otherGigs = ranked.filter(({ match }) => !match.suitable);
 
   return (
     <div className="stack">
@@ -122,7 +125,10 @@ export function CandidateHome() {
         <div className="section-head">
           <div>
             <h2>Gigs for you</h2>
-            <p className="muted small">Best fit first, based on skills, availability, and location.</p>
+            <p className="muted small">
+              A good fit scores {SUITABLE_SCORE}% or more and matches at least half of the required
+              skills.
+            </p>
           </div>
           <span className="count-pill">{ranked.length} open</span>
         </div>
@@ -138,62 +144,115 @@ export function CandidateHome() {
             </div>
           </div>
         ) : (
-          <div className="match-list">
-            {ranked.map(({ opportunity, match }) => {
-              const interest = getInterest(opportunity.id, active.id, app);
-              const gigLink = `/candidate/gigs/${opportunity.id}`;
-              return (
-                <article className="card opp-row" key={opportunity.id}>
-                  <ScoreBadge score={match.score} band={match.band} />
-                  <div className="opp-body">
-                    <h3>
-                      <Link to={gigLink}>{opportunity.title}</Link>
-                    </h3>
-                    <p className="muted small">
-                      {opportunity.employer} · {opportunity.location} · {opportunity.workType} ·{' '}
-                      {opportunity.startNeed === 'Flexible'
-                        ? 'flexible start'
-                        : `starts ${opportunity.startNeed.toLowerCase()}`}
-                    </p>
+          <>
+            <h3 className="list-title">Good fits</h3>
+            {goodFits.length === 0 ? (
+              <div className="card empty-state">
+                <h3>No gigs reach {SUITABLE_SCORE}% yet.</h3>
+                <p>The other open gigs are below. Adding skills or widening your availability can help.</p>
+                <div className="empty-actions">
+                  <Link className="btn btn-secondary" to="/candidate/profile">
+                    Edit profile
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <div className="match-list">
+                {goodFits.map(({ opportunity, match }) => (
+                  <GigRow
+                    key={opportunity.id}
+                    opportunity={opportunity}
+                    match={match}
+                    candidateId={active.id}
+                  />
+                ))}
+              </div>
+            )}
 
-                    <MatchChecks parts={match.parts} />
-
-                    <div className="chips">
-                      {opportunity.requiredSkills.map((skill) => (
-                        <span
-                          className={`chip ${match.matchedSkills.includes(skill) ? 'chip-ok' : 'chip-missing'}`}
-                          key={skill}
-                        >
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="opp-actions">
-                    {interest ? (
-                      <span className="status status-yes">
-                        <CheckIcon size={12} /> Interested · {formatWhen(interest.createdAt)}
-                      </span>
-                    ) : (
-                      <button
-                        type="button"
-                        className="btn btn-primary btn-sm"
-                        onClick={() => expressInterest(opportunity.id, active.id)}
-                      >
-                        Express interest
-                      </button>
-                    )}
-                    <Link className="btn btn-secondary btn-sm" to={gigLink}>
-                      View gig
-                    </Link>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
+            {otherGigs.length > 0 ? (
+              <details className="card other-gigs">
+                <summary>
+                  <span>Other open gigs</span>
+                  <span className="count-pill">{otherGigs.length}</span>
+                </summary>
+                <div className="match-list">
+                  {otherGigs.map(({ opportunity, match }) => (
+                    <GigRow
+                      key={opportunity.id}
+                      opportunity={opportunity}
+                      match={match}
+                      candidateId={active.id}
+                    />
+                  ))}
+                </div>
+              </details>
+            ) : null}
+          </>
         )}
       </section>
     </div>
+  );
+}
+
+function GigRow({
+  opportunity,
+  match,
+  candidateId,
+}: {
+  opportunity: Opportunity;
+  match: Match;
+  candidateId: string;
+}) {
+  const app = useApp();
+  const interest = getInterest(opportunity.id, candidateId, app);
+  const gigLink = `/candidate/gigs/${opportunity.id}`;
+
+  return (
+    <article className="card opp-row">
+      <ScoreBadge score={match.score} band={match.band} />
+      <div className="opp-body">
+        <h3>
+          <Link to={gigLink}>{opportunity.title}</Link>
+        </h3>
+        <p className="muted small">
+          {opportunity.employer} · {opportunity.location} · {opportunity.workType} ·{' '}
+          {opportunity.startNeed === 'Flexible'
+            ? 'flexible start'
+            : `starts ${opportunity.startNeed.toLowerCase()}`}
+        </p>
+
+        <MatchChecks parts={match.parts} />
+
+        <div className="chips">
+          {opportunity.requiredSkills.map((skill) => (
+            <span
+              className={`chip ${match.matchedSkills.includes(skill) ? 'chip-ok' : 'chip-missing'}`}
+              key={skill}
+            >
+              {skill}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div className="opp-actions">
+        {interest ? (
+          <span className="status status-yes">
+            <CheckIcon size={12} /> Interested · {formatWhen(interest.createdAt)}
+          </span>
+        ) : (
+          <button
+            type="button"
+            className="btn btn-primary btn-sm"
+            onClick={() => expressInterest(opportunity.id, candidateId)}
+          >
+            Express interest
+          </button>
+        )}
+        <Link className="btn btn-secondary btn-sm" to={gigLink}>
+          View gig
+        </Link>
+      </div>
+    </article>
   );
 }
