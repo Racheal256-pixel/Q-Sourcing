@@ -100,31 +100,42 @@ Every screen shows the same reasons and gaps the score is built from. The score 
 - Interest is a single flag with a timestamp. There is no messaging, interview scheduling, or offer flow.
 - The profile has no file uploads, references, or verification, so nothing on a profile is checked.
 - Data lives in the browser. Clearing site data, or pressing Reset demo data, removes it.
-- The optional Firebase sync is one shared Firestore document with no security rules. Use it for the demo only, never with real candidate data.
+- The optional Firebase sync is one shared Firestore document, so anyone who can open the site can change it. Use it for the demo only, never with real candidate data.
 
-## Optional Firebase sync
+## Firebase sync
 
-The app is local first so the demo cannot fail when the venue wifi is weak. If you want the two views to share state across devices or browser windows, connect a Firebase project once.
+The app is local first so the demo cannot fail when the venue wifi is weak. Firestore is wired as an optional shared backend for the `flip-386f2` project.
 
-1. Create a Firebase project, add a web app, and enable Firestore.
-2. Open the app, then paste this in the browser DevTools console. Use the config values Firebase gives you.
+Configuration comes from the `VITE_FIREBASE_*` build variables. They are set in the Vercel project for Production, Preview, and Development, and in `.env.development.local` for local work. `VITE_` values end up inside the built JavaScript, which is normal for a Firebase web app; the client config is not a secret.
+
+The rules must allow the demo document, or every read and write is rejected:
+
+```
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /workspaces/career-expo-demo {
+      allow read, write: if true;
+    }
+  }
+}
+```
+
+Paste that in Firebase console, Firestore Database, Rules, then Publish. While the rules deny access the app logs one warning, `Firestore denied access, so this browser stays local`, and keeps everything in localStorage.
+
+The app writes the whole workspace to `workspaces/career-expo-demo` and follows changes from other browsers. To point one browser at a different project without a rebuild, paste a config in the console; it overrides the build config:
 
 ```js
 localStorage.setItem(
   'careerexpo2026.firebaseConfig',
-  JSON.stringify({
-    apiKey: '…',
-    authDomain: 'your-project.firebaseapp.com',
-    projectId: 'your-project',
-    appId: '…',
-  })
+  JSON.stringify({ apiKey: '…', projectId: 'your-project', appId: '…' })
 );
 location.reload();
 ```
 
-The app writes the whole workspace to the Firestore document `workspaces/career-expo-demo` and listens for changes. If the config is missing or Firestore cannot be reached, the app stays on local storage and keeps working. There is no .env file to edit.
+Remove the override with `localStorage.removeItem('careerexpo2026.firebaseConfig')` and reload.
 
-Use short lived test rules while demonstrating, and do not put real personal data in a public project.
+Anyone who can open the site can write to that document, so keep fictional data in it and lock the rules again after the event.
 
 ## Project layout
 
