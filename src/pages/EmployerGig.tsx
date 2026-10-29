@@ -273,14 +273,17 @@ function MatchRow({ match, gigId }: { match: Match; gigId: string }) {
       <ScoreBadge score={match.score} band={match.band} />
       <div className="match-body">
         <div className="match-head">
-          <div>
-            <h3>
-              <Link to={profileLink}>{match.candidate.name}</Link>
-            </h3>
-            <p className="muted small">
-              {match.candidate.headline} · {match.candidate.location} ·{' '}
-              {match.candidate.availability.toLowerCase()}
-            </p>
+          <div className="match-id">
+            <Avatar name={match.candidate.name} size="sm" />
+            <div>
+              <h3>
+                <Link to={profileLink}>{match.candidate.name}</Link>
+              </h3>
+              <p className="muted small">
+                {match.candidate.headline} · {match.candidate.location} ·{' '}
+                {match.candidate.availability.toLowerCase()}
+              </p>
+            </div>
           </div>
           {interest ? (
             <span className="status status-yes">

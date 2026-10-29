@@ -554,6 +554,13 @@ button {
   grid-template-columns: minmax(0, 1fr) auto;
 }
 
+.match-id {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
 .weights li:last-child {
   border-bottom: 0;
 }
