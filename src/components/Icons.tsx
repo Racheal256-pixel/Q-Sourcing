@@ -66,3 +66,42 @@ export function UsersIcon({ className, size = 16 }: IconProps) {
     </svg>
   );
 }
+
+export function SkillsIcon({ className, size = 16 }: IconProps) {
+  return (
+    <svg className={className} width={size} height={size} viewBox="0 0 24 24" {...strokeProps}>
+      <path d="M12 3l2.4 5.1 5.6.8-4.1 3.9 1 5.6-4.9-2.7-4.9 2.7 1-5.6L4 8.9l5.6-.8z" />
+    </svg>
+  );
+}
+
+export function CalendarIcon({ className, size = 16 }: IconProps) {
+  return (
+    <svg className={className} width={size} height={size} viewBox="0 0 24 24" {...strokeProps}>
+      <rect x="3" y="5" width="18" height="16" rx="2" />
+      <line x1="16" y1="3" x2="16" y2="7" />
+      <line x1="8" y1="3" x2="8" y2="7" />
+      <line x1="3" y1="11" x2="21" y2="11" />
+      <path d="M8 15h3v3H8z" />
+    </svg>
+  );
+}
+
+export function PinIcon({ className, size = 16 }: IconProps) {
+  return (
+    <svg className={className} width={size} height={size} viewBox="0 0 24 24" {...strokeProps}>
+      <path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z" />
+      <circle cx="12" cy="10" r="2.6" />
+    </svg>
+  );
+}
+
+export function BriefcaseIcon({ className, size = 16 }: IconProps) {
+  return (
+    <svg className={className} width={size} height={size} viewBox="0 0 24 24" {...strokeProps}>
+      <rect x="3" y="7" width="18" height="13" rx="2" />
+      <path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" />
+      <line x1="3" y1="13" x2="21" y2="13" />
+    </svg>
+  );
+}

@@ -1,6 +1,14 @@
 import { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowRightIcon, PlusIcon } from '../components/Icons';
+import {
+  ArrowRightIcon,
+  BriefcaseIcon,
+  CalendarIcon,
+  PinIcon,
+  PlusIcon,
+  SkillsIcon,
+} from '../components/Icons';
+import { MatchHero } from '../components/Illustrations';
 import { GigForm, type GigFormValues } from '../forms/GigForm';
 import { rankCandidates } from '../lib/matching';
 import { addOpportunity, useApp } from '../lib/store';
@@ -26,20 +34,21 @@ export function EmployerHome() {
 
   return (
     <div className="stack">
-      <header className="page-head">
-        <div>
+      <header className="hero">
+        <div className="hero-copy">
           <p className="eyebrow">Employer view</p>
           <h1>Post the gig. See who fits.</h1>
           <p className="lede">
             Describe what you need, review a ranked shortlist, and see which candidates have already
             expressed interest.
           </p>
+          <div className="head-actions">
+            <button type="button" className="btn btn-primary" onClick={openForm}>
+              <PlusIcon size={16} /> Post a gig
+            </button>
+          </div>
         </div>
-        <div className="head-actions">
-          <button type="button" className="btn btn-primary" onClick={openForm}>
-            <PlusIcon size={16} /> Post a gig
-          </button>
-        </div>
+        <MatchHero className="hero-art" />
       </header>
 
       <div className="metrics">
@@ -155,18 +164,30 @@ export function EmployerHome() {
         </div>
         <ul className="weights">
           <li>
+            <span className="weight-icon">
+              <SkillsIcon size={16} />
+            </span>
             <span>Required skills</span>
             <span>60%</span>
           </li>
           <li>
+            <span className="weight-icon">
+              <CalendarIcon size={16} />
+            </span>
             <span>Availability against the start date</span>
             <span>15%</span>
           </li>
           <li>
+            <span className="weight-icon">
+              <PinIcon size={16} />
+            </span>
             <span>Location, or remote</span>
             <span>15%</span>
           </li>
           <li>
+            <span className="weight-icon">
+              <BriefcaseIcon size={16} />
+            </span>
             <span>Years of experience</span>
             <span>10%</span>
           </li>

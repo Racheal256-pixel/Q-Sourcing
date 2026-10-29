@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { CheckIcon, CrossIcon } from '../components/Icons';
+import { MatchHero } from '../components/Illustrations';
 import { Avatar } from '../components/Layout';
 import { ScoreBadge } from '../components/ScoreBadge';
 import { matchCandidate } from '../lib/matching';
@@ -40,32 +41,33 @@ export function CandidateHome() {
 
   return (
     <div className="stack">
-      <header className="page-head">
-        <div>
+      <header className="hero">
+        <div className="hero-copy">
           <p className="eyebrow">Candidate view</p>
           <h1>Find work that fits your skills.</h1>
           <p className="lede">
             Gigs are ranked against your profile. Open one to see the exact reasons, or express
             interest straight away.
           </p>
+          <div className="head-actions">
+            <label className="viewing-as" htmlFor="acting-as">
+              <span>Viewing as</span>
+              <select
+                id="acting-as"
+                className="input select select-compact"
+                value={active.id}
+                onChange={(event) => setActiveCandidate(event.target.value)}
+              >
+                {app.candidates.map((candidate) => (
+                  <option key={candidate.id} value={candidate.id}>
+                    {candidate.name} · {candidate.headline}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
         </div>
-        <div className="head-actions">
-          <label className="viewing-as" htmlFor="acting-as">
-            <span>Viewing as</span>
-            <select
-              id="acting-as"
-              className="input select select-compact"
-              value={active.id}
-              onChange={(event) => setActiveCandidate(event.target.value)}
-            >
-              {app.candidates.map((candidate) => (
-                <option key={candidate.id} value={candidate.id}>
-                  {candidate.name} · {candidate.headline}
-                </option>
-              ))}
-            </select>
-          </label>
-        </div>
+        <MatchHero className="hero-art" />
       </header>
 
       <section className="card profile-card">
