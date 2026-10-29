@@ -2,6 +2,8 @@
 
 Talent and gig matching demo for the Career Expo 2026 live employer challenge, Q-Sourcing and FLIP Africa.
 
+Live demo: https://kazilink-swart.vercel.app
+
 KaziLink has two connected views. An employer posts a gig and gets a ranked shortlist with a plain language reason for every match. A candidate creates a profile, sees the gigs that fit, and expresses interest. The employer sees that interest on the shortlist.
 
 Built with React, TypeScript, Vite, and React Router. Data is stored in the browser by default. Firebase Firestore is supported as an optional shared backend.
@@ -17,7 +19,7 @@ npm run dev
 
 Open http://localhost:5173. The app opens on the employer view.
 
-If you deploy the built app to a static host, configure it to serve `index.html` for unknown paths so the routes work on refresh.
+If you deploy the built app to a static host, configure it to serve `index.html` for unknown paths so the routes work on refresh. The included `vercel.json` does this for Vercel.
 
 Production build:
 
