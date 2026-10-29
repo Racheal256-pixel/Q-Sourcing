@@ -1,7 +1,7 @@
 import { chromium } from 'playwright-core';
 
 const chrome = process.env.CHROME_PATH || 'C:/Program Files/Google/Chrome/Application/chrome.exe';
-const base = process.env.BASE_URL || 'https://kazilink-swart.vercel.app';
+const base = process.env.BASE_URL || 'https://q-sourcing.vercel.app';
 
 const browser = await chromium.launch({ executablePath: chrome, headless: true });
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });

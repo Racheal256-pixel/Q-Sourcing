@@ -2,7 +2,7 @@
 
 Talent and gig matching demo for the Career Expo 2026 live employer challenge, Q-Sourcing and FLIP Africa.
 
-Live demo: https://kazilink-swart.vercel.app
+Live demo: https://q-sourcing.vercel.app
 
 KaziLink has two connected views. An employer posts a gig and gets a ranked shortlist with a plain language reason for every match. A candidate creates a profile, sees the gigs that fit, and expresses interest. The employer sees that interest on the shortlist.
 
