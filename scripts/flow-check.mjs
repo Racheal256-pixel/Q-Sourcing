@@ -28,7 +28,8 @@ page.on('console', (message) => {
 });
 
 await check('employer home lists three seeded gigs', async () => {
-  await page.goto(`${base}/employer`, { waitUntil: 'networkidle' });
+  await page.goto(`${base}/employer`, { waitUntil: 'load' });
+  await page.waitForSelector('.gig-card');
   assert.equal(await page.locator('.gig-card').count(), 3);
 });
 
@@ -57,7 +58,7 @@ await check('a valid gig saves and opens its match list', async () => {
 });
 
 await check('shortlisting shows the candidate with no interest yet', async () => {
-  await page.goto(`${base}/employer/gigs/gig-frontend`, { waitUntil: 'networkidle' });
+  await page.goto(`${base}/employer/gigs/gig-frontend`, { waitUntil: 'load' });
   await page.locator('.match-row').first().getByRole('button', { name: 'Shortlist' }).click();
   await page.waitForSelector('.shortlist');
   const text = await page.locator('.shortlist').innerText();
@@ -114,7 +115,7 @@ await check('showing all candidates still reveals low scorers', async () => {
 });
 
 await check('candidate profile validation names each missing field', async () => {
-  await page.goto(`${base}/candidate/profile/new`, { waitUntil: 'networkidle' });
+  await page.goto(`${base}/candidate/profile/new`, { waitUntil: 'load' });
   await page.getByRole('button', { name: 'Save profile' }).click();
   await page.waitForSelector('.banner-error');
   assert.equal(await page.locator('.field-msg').count(), 4);
@@ -133,7 +134,7 @@ await check('new candidate profile is saved and becomes the active profile', asy
 });
 
 await check('state persists after a reload', async () => {
-  await page.reload({ waitUntil: 'networkidle' });
+  await page.reload({ waitUntil: 'load' });
   assert.match(await page.locator('.profile-card h2').innerText(), /Test Candidate/);
   const stored = await page.evaluate(() => localStorage.getItem('careerexpo2026.v1'));
   assert.ok(stored && stored.includes('Test Candidate'));

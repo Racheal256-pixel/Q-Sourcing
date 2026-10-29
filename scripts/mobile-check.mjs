@@ -5,7 +5,7 @@ const executablePath =
 const base = process.env.BASE_URL || 'http://localhost:5173';
 const browser = await chromium.launch({ executablePath, headless: true });
 const page = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true });
-await page.goto(`${base}/employer/gigs/gig-frontend`, { waitUntil: 'networkidle' });
+await page.goto(`${base}/employer/gigs/gig-frontend`, { waitUntil: 'load' });
 await page.screenshot({ path: 'C:/Users/U S  E  R/Documents/projects/expo/.shots/m390-employer-gig.png', fullPage: true });
 
 const report = await page.evaluate(() => {
@@ -32,11 +32,11 @@ const report = await page.evaluate(() => {
 });
 console.log(JSON.stringify(report, null, 2));
 
-await page.goto(`${base}/candidate`, { waitUntil: 'networkidle' });
+await page.goto(`${base}/candidate`, { waitUntil: 'load' });
 await page.screenshot({ path: 'C:/Users/U S  E  R/Documents/projects/expo/.shots/m390-candidate-home.png', fullPage: true });
 console.log('candidate scrollWidth', await page.evaluate(() => document.documentElement.scrollWidth));
 
-await page.goto(`${base}/employer`, { waitUntil: 'networkidle' });
+await page.goto(`${base}/employer`, { waitUntil: 'load' });
 await page.screenshot({ path: 'C:/Users/U S  E  R/Documents/projects/expo/.shots/m390-employer-home.png', fullPage: true });
 
 await browser.close();
