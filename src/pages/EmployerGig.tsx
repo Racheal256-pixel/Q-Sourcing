@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowLeftIcon, CheckIcon, CrossIcon } from '../components/Icons';
 import { Avatar } from '../components/Layout';
+import { MatchChecks } from '../components/MatchChecks';
 import { ScoreBadge } from '../components/ScoreBadge';
 import { GigForm, type GigFormValues } from '../forms/GigForm';
 import { rankCandidates, SUITABLE_SCORE } from '../lib/matching';
@@ -292,18 +293,7 @@ function MatchRow({ match, gigId }: { match: Match; gigId: string }) {
           ) : null}
         </div>
 
-        <ul className="reasons">
-          {match.reasons.slice(0, 2).map((reason) => (
-            <li key={reason}>
-              <CheckIcon className="ico-ok" /> {reason}
-            </li>
-          ))}
-          {match.gaps.slice(0, 1).map((gap) => (
-            <li key={gap} className="gap">
-              <CrossIcon className="ico-gap" /> {gap}
-            </li>
-          ))}
-        </ul>
+        <MatchChecks parts={match.parts} />
 
         <div className="chips">
           {match.matchedSkills.map((skill) => (

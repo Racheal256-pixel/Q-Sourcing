@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
-import { CheckIcon, CrossIcon } from '../components/Icons';
+import { CheckIcon } from '../components/Icons';
 import { MatchHero } from '../components/Illustrations';
 import { Avatar } from '../components/Layout';
+import { MatchChecks } from '../components/MatchChecks';
 import { ScoreBadge } from '../components/ScoreBadge';
 import { matchCandidate } from '../lib/matching';
 import { expressInterest, formatWhen, getInterest, setActiveCandidate, useApp } from '../lib/store';
@@ -155,18 +156,7 @@ export function CandidateHome() {
                         : `starts ${opportunity.startNeed.toLowerCase()}`}
                     </p>
 
-                    <ul className="reasons">
-                      {match.reasons.slice(0, 2).map((reason) => (
-                        <li key={reason}>
-                          <CheckIcon className="ico-ok" /> {reason}
-                        </li>
-                      ))}
-                      {match.gaps.slice(0, 1).map((gap) => (
-                        <li key={gap} className="gap">
-                          <CrossIcon className="ico-gap" /> {gap}
-                        </li>
-                      ))}
-                    </ul>
+                    <MatchChecks parts={match.parts} />
 
                     <div className="chips">
                       {opportunity.requiredSkills.map((skill) => (
