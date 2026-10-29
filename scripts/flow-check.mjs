@@ -37,8 +37,8 @@ await check('empty gig form shows a field-level error for each required field', 
   await page.getByRole('button', { name: 'Post a gig' }).click();
   await page.getByRole('button', { name: 'Post gig' }).click();
   await page.waitForSelector('.banner-error');
-  assert.equal(await page.locator('.field-msg').count(), 5);
-  assert.equal(await page.locator('[aria-invalid="true"]').count(), 5);
+  assert.equal(await page.locator('.field-msg').count(), 4);
+  assert.equal(await page.locator('[aria-invalid="true"]').count(), 4);
   await page.screenshot({ path: `${shots}/desktop-gig-form-errors.png`, fullPage: true });
 });
 

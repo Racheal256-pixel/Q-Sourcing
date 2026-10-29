@@ -111,7 +111,9 @@ export function CandidateGig() {
         <section className="stack-sm">
           <div className="card">
             <h2>About this gig</h2>
-            <p className="body-text">{opportunity.description}</p>
+            <p className="body-text">
+              {opportunity.description || 'The employer has not added a description yet.'}
+            </p>
           </div>
 
           <div className="card">

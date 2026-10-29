@@ -82,7 +82,9 @@ export function EmployerGig() {
               {opportunity.employer} · {opportunity.workType}
             </p>
             <h1>{opportunity.title}</h1>
-            <p className="lede">{opportunity.description}</p>
+            <p className="lede">
+              {opportunity.description || 'No description was added for this gig.'}
+            </p>
             <div className="meta-row">
               <span>{opportunity.location}</span>
               <span className="dot" aria-hidden="true">

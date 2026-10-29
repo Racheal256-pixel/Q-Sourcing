@@ -36,9 +36,6 @@ export function GigForm({ initial, submitLabel, onSubmit, onCancel }: GigFormPro
 
     if (!title.trim()) next.title = 'Enter a title for the gig.';
     if (!employer.trim()) next.employer = 'Enter the employer or company name.';
-    if (description.trim().length < 20) {
-      next.description = 'Describe the work in at least 20 characters.';
-    }
     if (skills.length === 0) {
       next.requiredSkills = 'Add at least one required skill, separated by commas.';
     }
@@ -105,10 +102,9 @@ export function GigForm({ initial, submitLabel, onSubmit, onCancel }: GigFormPro
         <Field
           id="description"
           label="What the work involves"
-          required
           error={errors.description}
           className="field-wide"
-          hint="A short, plain description is enough."
+          hint="Optional. One or two lines about the work."
         >
           <textarea
             id="description"
