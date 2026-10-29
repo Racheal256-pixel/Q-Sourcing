@@ -199,6 +199,9 @@ export function EmployerGig() {
                   const candidate = app.candidates.find((item) => item.id === entry.candidateId);
                   if (!candidate) return null;
                   const interest = getInterest(opportunity.id, candidate.id, app);
+                  const stillFits = matches.some(
+                    (match) => match.candidate.id === candidate.id && match.suitable,
+                  );
                   return (
                     <li key={entry.id}>
                       <Avatar name={candidate.name} size="sm" />
@@ -211,6 +214,11 @@ export function EmployerGig() {
                             ? `Expressed interest · ${formatWhen(interest.createdAt)}`
                             : 'No interest yet'}
                         </span>
+                        {stillFits ? null : (
+                          <span className="status status-warn">
+                            No longer meets updated requirements
+                          </span>
+                        )}
                       </div>
                       <button
                         type="button"

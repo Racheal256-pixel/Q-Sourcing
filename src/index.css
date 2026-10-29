@@ -920,6 +920,11 @@ button {
   color: var(--green);
 }
 
+.status-warn {
+  background: #fdf1e4;
+  color: #8a5312;
+}
+
 .status-block {
   display: flex;
   width: 100%;
@@ -995,6 +1000,10 @@ button {
 
 .shortlist-body .status-yes {
   color: var(--green);
+}
+
+.shortlist-body .status-warn {
+  color: #8a5312;
 }
 
 .icon-btn {
