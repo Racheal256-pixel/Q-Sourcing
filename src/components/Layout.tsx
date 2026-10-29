@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { NavLink } from 'react-router-dom';
 import { resetDemo } from '../lib/store';
+import { LogoMark } from './Logo';
 
 export function Avatar({ name, size = 'md' }: { name: string; size?: 'sm' | 'md' | 'lg' }) {
   const initials = name
@@ -22,9 +23,7 @@ export function Layout({ children }: { children: ReactNode }) {
       <header className="topbar">
         <div className="topbar-inner">
           <div className="brand">
-            <span className="brand-mark" aria-hidden="true">
-              K
-            </span>
+            <LogoMark size={38} className="brand-logo" />
             <span className="brand-text">
               <strong>KaziLink</strong>
               <small>Talent and gig matching</small>
