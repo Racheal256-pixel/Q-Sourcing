@@ -1443,7 +1443,7 @@ button {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  animation: skeleton-fade 220ms ease 150ms both;
+  animation: skeleton-fade 200ms ease both;
 }
 
 .sk {
@@ -1475,7 +1475,7 @@ button {
 
 @keyframes skeleton-fade {
   from {
-    opacity: 0;
+    opacity: 0.6;
   }
   to {
     opacity: 1;
