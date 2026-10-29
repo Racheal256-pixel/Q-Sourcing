@@ -29,3 +29,6 @@ dist-ssr
 # Submission staging
 .submission
 kazilink-submission.zip
+
+.vercel
+.env*
