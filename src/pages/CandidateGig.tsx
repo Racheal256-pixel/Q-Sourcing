@@ -93,12 +93,17 @@ export function CandidateGig() {
                 {skill}
               </span>
             ))}
-            {opportunity.niceToHaveSkills.map((skill) => (
-              <span className="chip chip-ghost" key={skill}>
-                {skill}
-              </span>
-            ))}
           </div>
+          {opportunity.niceToHaveSkills.length > 0 ? (
+            <div className="chips">
+              <span className="chip-label">Nice to have:</span>
+              {opportunity.niceToHaveSkills.map((skill) => (
+                <span className="chip chip-ghost" key={skill}>
+                  {skill}
+                </span>
+              ))}
+            </div>
+          ) : null}
         </div>
       </header>
 

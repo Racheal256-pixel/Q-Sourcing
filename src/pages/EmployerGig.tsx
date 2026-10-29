@@ -108,12 +108,17 @@ export function EmployerGig() {
                   {skill}
                 </span>
               ))}
-              {opportunity.niceToHaveSkills.map((skill) => (
-                <span className="chip chip-ghost" key={skill}>
-                  {skill}
-                </span>
-              ))}
             </div>
+            {opportunity.niceToHaveSkills.length > 0 ? (
+              <div className="chips">
+                <span className="chip-label">Nice to have:</span>
+                {opportunity.niceToHaveSkills.map((skill) => (
+                  <span className="chip chip-ghost" key={skill}>
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            ) : null}
           </div>
           <div className="head-actions">
             <button type="button" className="btn btn-secondary" onClick={() => setEditing(true)}>

@@ -627,6 +627,12 @@ button {
   color: var(--muted);
 }
 
+.chip-label {
+  align-self: center;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--muted);
+}
 
 .chip-ok {
   background: var(--green-soft);
