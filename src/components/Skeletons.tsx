@@ -33,8 +33,22 @@ export function HomeSkeleton() {
       <div className="sk-section">
         <div className="sk sk-section-title" />
         <div className="sk-grid">
-          <div className="sk sk-card" />
-          <div className="sk sk-card" />
+          <div className="sk-card">
+            <div className="sk sk-media" />
+            <div className="sk-card-lines">
+              <div className="sk sk-line-sm" />
+              <div className="sk sk-line-lg" />
+              <div className="sk sk-line-md" />
+            </div>
+          </div>
+          <div className="sk-card">
+            <div className="sk sk-media" />
+            <div className="sk-card-lines">
+              <div className="sk sk-line-sm" />
+              <div className="sk sk-line-lg" />
+              <div className="sk sk-line-md" />
+            </div>
+          </div>
         </div>
       </div>
     </Screen>

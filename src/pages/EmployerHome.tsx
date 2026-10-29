@@ -9,6 +9,7 @@ import {
   SkillsIcon,
 } from '../components/Icons';
 import { MatchHero } from '../components/Illustrations';
+import { GigCover } from '../components/GigCover';
 import { GigForm, type GigFormValues } from '../forms/GigForm';
 import { rankCandidates } from '../lib/matching';
 import { addOpportunity, useApp } from '../lib/store';
@@ -113,39 +114,44 @@ export function EmployerHome() {
               ).length;
               return (
                 <article className="card gig-card" key={opportunity.id}>
-                  <div className="gig-card-top">
-                    <span className="chip chip-soft">{opportunity.workType}</span>
-                    <span className="chip chip-count">{suitable} suitable</span>
+                  <div className="gig-card-media">
+                    <GigCover title={opportunity.title} skills={opportunity.requiredSkills} />
                   </div>
-                  <h3>
-                    <Link to={`/employer/gigs/${opportunity.id}`}>{opportunity.title}</Link>
-                  </h3>
-                  <p className="gig-employer">{opportunity.employer}</p>
-                  <div className="meta-row">
-                    <span>{opportunity.location}</span>
-                    <span className="dot" aria-hidden="true">
-                      ·
-                    </span>
-                    <span>
-                      {opportunity.startNeed === 'Flexible'
-                        ? 'Flexible start'
-                        : `Starts ${opportunity.startNeed.toLowerCase()}`}
-                    </span>
-                  </div>
-                  <div className="chips">
-                    {opportunity.requiredSkills.slice(0, 4).map((skill) => (
-                      <span className="chip" key={skill}>
-                        {skill}
+                  <div className="gig-card-body">
+                    <div className="gig-card-top">
+                      <span className="chip chip-soft">{opportunity.workType}</span>
+                      <span className="chip chip-count">{suitable} suitable</span>
+                    </div>
+                    <h3>
+                      <Link to={`/employer/gigs/${opportunity.id}`}>{opportunity.title}</Link>
+                    </h3>
+                    <p className="gig-employer">{opportunity.employer}</p>
+                    <div className="meta-row">
+                      <span>{opportunity.location}</span>
+                      <span className="dot" aria-hidden="true">
+                        ·
                       </span>
-                    ))}
-                  </div>
-                  <div className="card-foot">
-                    <Link to={`/employer/gigs/${opportunity.id}`} className="text-link">
-                      View matches <ArrowRightIcon size={14} />
-                    </Link>
-                    <span className="muted small">
-                      {shortlisted} shortlisted · {interested} interested
-                    </span>
+                      <span>
+                        {opportunity.startNeed === 'Flexible'
+                          ? 'Flexible start'
+                          : `Starts ${opportunity.startNeed.toLowerCase()}`}
+                      </span>
+                    </div>
+                    <div className="chips">
+                      {opportunity.requiredSkills.slice(0, 4).map((skill) => (
+                        <span className="chip" key={skill}>
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="card-foot">
+                      <Link to={`/employer/gigs/${opportunity.id}`} className="text-link">
+                        View matches <ArrowRightIcon size={14} />
+                      </Link>
+                      <span className="muted small">
+                        {shortlisted} shortlisted · {interested} interested
+                      </span>
+                    </div>
                   </div>
                 </article>
               );
