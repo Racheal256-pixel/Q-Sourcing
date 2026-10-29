@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { Field, FormErrorBanner } from '../components/Field';
+import { Spinner } from '../components/Spinner';
 import { splitSkills } from '../lib/matching';
 import { AVAILABILITY_OPTIONS, WORK_TYPES } from '../types';
 import type { Availability, Candidate, WorkType } from '../types';
@@ -23,9 +24,11 @@ export function ProfileForm({ initial, submitLabel, onSubmit, onCancel }: Profil
   const [availability, setAvailability] = useState<Availability>(initial?.availability ?? 'Immediately');
   const [about, setAbout] = useState(initial?.about ?? '');
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [saving, setSaving] = useState(false);
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
+    if (saving) return;
     const next: Record<string, string> = {};
     const parsedSkills = splitSkills(skills);
     const parsedYears = Number(years);
@@ -47,16 +50,19 @@ export function ProfileForm({ initial, submitLabel, onSubmit, onCancel }: Profil
       return;
     }
 
-    onSubmit({
-      name: name.trim(),
-      headline: headline.trim(),
-      skills: parsedSkills,
-      yearsExperience: parsedYears,
-      location: location.trim(),
-      workType,
-      availability,
-      about: about.trim(),
-    });
+    setSaving(true);
+    window.setTimeout(() => {
+      onSubmit({
+        name: name.trim(),
+        headline: headline.trim(),
+        skills: parsedSkills,
+        yearsExperience: parsedYears,
+        location: location.trim(),
+        workType,
+        availability,
+        about: about.trim(),
+      });
+    }, 400);
   }
 
   const describedBy = (id: string) => (errors[id] ? `${id}-error` : undefined);
@@ -187,8 +193,14 @@ export function ProfileForm({ initial, submitLabel, onSubmit, onCancel }: Profil
       </div>
 
       <div className="form-actions">
-        <button type="submit" className="btn btn-primary">
-          {submitLabel}
+        <button type="submit" className="btn btn-primary" disabled={saving} aria-busy={saving}>
+          {saving ? (
+            <>
+              <Spinner /> Saving...
+            </>
+          ) : (
+            submitLabel
+          )}
         </button>
         {onCancel ? (
           <button type="button" className="btn btn-ghost" onClick={onCancel}>

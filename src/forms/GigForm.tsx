@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { Field, FormErrorBanner } from '../components/Field';
+import { Spinner } from '../components/Spinner';
 import { splitSkills } from '../lib/matching';
 import { START_OPTIONS, WORK_TYPES } from '../types';
 import type { Opportunity, StartNeed, WorkType } from '../types';
@@ -24,9 +25,11 @@ export function GigForm({ initial, submitLabel, onSubmit, onCancel }: GigFormPro
   const [minYears, setMinYears] = useState(String(initial?.minYearsExperience ?? 0));
   const [startNeed, setStartNeed] = useState<StartNeed>(initial?.startNeed ?? 'Within 2 weeks');
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [saving, setSaving] = useState(false);
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
+    if (saving) return;
     const next: Record<string, string> = {};
     const skills = splitSkills(requiredSkills);
     const years = Number(minYears);
@@ -51,17 +54,20 @@ export function GigForm({ initial, submitLabel, onSubmit, onCancel }: GigFormPro
       return;
     }
 
-    onSubmit({
-      title: title.trim(),
-      employer: employer.trim(),
-      description: description.trim(),
-      requiredSkills: skills,
-      niceToHaveSkills: splitSkills(niceSkills),
-      location: location.trim(),
-      workType,
-      minYearsExperience: years,
-      startNeed,
-    });
+    setSaving(true);
+    window.setTimeout(() => {
+      onSubmit({
+        title: title.trim(),
+        employer: employer.trim(),
+        description: description.trim(),
+        requiredSkills: skills,
+        niceToHaveSkills: splitSkills(niceSkills),
+        location: location.trim(),
+        workType,
+        minYearsExperience: years,
+        startNeed,
+      });
+    }, 400);
   }
 
   const describedBy = (id: string) => (errors[id] ? `${id}-error` : undefined);
@@ -218,8 +224,14 @@ export function GigForm({ initial, submitLabel, onSubmit, onCancel }: GigFormPro
       </div>
 
       <div className="form-actions">
-        <button type="submit" className="btn btn-primary">
-          {submitLabel}
+        <button type="submit" className="btn btn-primary" disabled={saving} aria-busy={saving}>
+          {saving ? (
+            <>
+              <Spinner /> Saving...
+            </>
+          ) : (
+            submitLabel
+          )}
         </button>
         {onCancel ? (
           <button type="button" className="btn btn-ghost" onClick={onCancel}>
