@@ -49,6 +49,8 @@ await check('a valid gig saves and opens its match list', async () => {
   await page.fill('#requiredSkills', 'React, TypeScript');
   await page.fill('#location', 'Kampala');
   await page.getByRole('button', { name: 'Post gig' }).click();
+  assert.equal(await page.locator('button[aria-busy="true"]').count(), 1, 'save button stays busy');
+  assert.equal(await page.locator('button[aria-busy="true"] .spinner').count(), 1, 'spinner shows');
   await page.waitForURL(/\/employer\/gigs\/gig-/);
   await page.waitForFunction(() =>
     Boolean(document.querySelector('h1')?.textContent?.includes('Junior React Developer')),
