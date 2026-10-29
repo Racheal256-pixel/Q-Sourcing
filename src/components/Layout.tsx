@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react';
 import { NavLink } from 'react-router-dom';
 import { resetDemo } from '../lib/store';
-import { LogoMark } from './Logo';
 
 export function Avatar({ name, size = 'md' }: { name: string; size?: 'sm' | 'md' | 'lg' }) {
   const initials = name
@@ -23,11 +22,14 @@ export function Layout({ children }: { children: ReactNode }) {
       <header className="topbar">
         <div className="topbar-inner">
           <div className="brand">
-            <LogoMark size={38} className="brand-logo" />
-            <span className="brand-text">
-              <strong>KaziLink</strong>
-              <small>Talent and gig matching</small>
-            </span>
+            <img
+              className="brand-logo"
+              src="/kazilink-logo.svg"
+              alt="KaziLink"
+              width={131}
+              height={38}
+            />
+            <span className="brand-tagline">Talent and gig matching</span>
           </div>
           <nav className="role-switch" aria-label="Switch between employer and candidate views">
             <NavLink
