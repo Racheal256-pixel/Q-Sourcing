@@ -45,8 +45,9 @@ export function ProfileForm({ initial, submitLabel, onSubmit, onCancel }: Profil
 
     setErrors(next);
     if (Object.keys(next).length > 0) {
-      document.getElementById('profile-form-errors')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      document.getElementById(Object.keys(next)[0])?.focus({ preventScroll: true });
+      requestAnimationFrame(() => {
+        document.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus();
+      });
       return;
     }
 
