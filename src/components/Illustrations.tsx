@@ -78,25 +78,3 @@ export function MatchHero({ className }: IllustrationProps) {
   );
 }
 
-export function LoadingVector({ label = 'Loading view' }: { label?: string }) {
-  return (
-    <div className="route-loading" role="status" aria-live="polite">
-      <svg viewBox="0 0 48 48" className="loading-svg" aria-hidden="true">
-        <circle cx="24" cy="24" r="17" fill="none" stroke="#DCE6F0" strokeWidth="4" />
-        <circle
-          cx="24"
-          cy="24"
-          r="17"
-          fill="none"
-          stroke="#0F2740"
-          strokeWidth="4"
-          strokeLinecap="round"
-          strokeDasharray="30 78"
-          className="loading-arc"
-        />
-        <circle cx="24" cy="24" r="4.5" fill="#F4A261" className="loading-dot" />
-      </svg>
-      <span>{label}</span>
-    </div>
-  );
-}

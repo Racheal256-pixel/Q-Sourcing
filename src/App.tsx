@@ -1,7 +1,7 @@
 import { lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter, Link, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { Layout } from './components/Layout';
-import { LoadingVector } from './components/Illustrations';
+import { RouteFallback } from './components/Skeletons';
 
 const CandidateGig = lazy(() =>
   import('./pages/CandidateGig').then((module) => ({ default: module.CandidateGig })),
@@ -52,7 +52,7 @@ export default function App() {
     <BrowserRouter>
       <ScrollToTop />
       <Layout>
-        <Suspense fallback={<LoadingVector />}>
+        <Suspense fallback={<RouteFallback />}>
           <Routes>
             <Route path="/" element={<Navigate to="/employer" replace />} />
             <Route path="/employer" element={<EmployerHome />} />
